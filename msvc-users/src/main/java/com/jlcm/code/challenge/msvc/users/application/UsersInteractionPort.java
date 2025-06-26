@@ -1,11 +1,10 @@
 package com.jlcm.code.challenge.msvc.users.application;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
-import java.util.SortedMap;
 
 import com.jlcm.code.challenge.msvc.users.domain.User;
+import com.jlcm.code.challenge.msvc.users.domain.dto.Country;
 
 public interface UsersInteractionPort {
 
@@ -21,7 +20,6 @@ public interface UsersInteractionPort {
 
     public Collection<User> generateUsers(int count);
 
-    // TODO: Think about a better way to handle this
-    public SortedMap<String, List<User>> findAllSortedByLocation();
+    public Collection<Country> findAllSortedByLocation();
 
 }

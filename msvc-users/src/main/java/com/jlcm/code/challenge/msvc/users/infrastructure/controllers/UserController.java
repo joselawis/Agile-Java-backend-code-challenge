@@ -1,8 +1,6 @@
 package com.jlcm.code.challenge.msvc.users.infrastructure.controllers;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.SortedMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jlcm.code.challenge.msvc.users.application.UsersInteractionPort;
 import com.jlcm.code.challenge.msvc.users.domain.User;
+import com.jlcm.code.challenge.msvc.users.domain.dto.Country;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -122,17 +121,16 @@ public class UserController {
         return ResponseEntity.ok(generatedUsers);
     }
 
-    // TODO: Think about a better way to handle this
     @GetMapping("tree")
-    public ResponseEntity<List<User>> getAllSortedByLocation() {
+    public ResponseEntity<List<Country>> getAllSortedByLocation() {
         logger.info("Finding users sorted by country, state and city");
-        SortedMap<String, List<User>> usersSorted = usersInteractionPort.findAllSortedByLocation();
+        List<Country> usersSorted = (List<Country>) usersInteractionPort.findAllSortedByLocation();
         if (usersSorted.isEmpty()) {
             logger.warn("No users found");
             return ResponseEntity.noContent().build();
         }
         logger.info("Found {} users", usersSorted.size());
-        return ResponseEntity.ok(usersSorted.values().stream().flatMap(List::stream).toList());
+        return ResponseEntity.ok(usersSorted);
     }
 
 }
