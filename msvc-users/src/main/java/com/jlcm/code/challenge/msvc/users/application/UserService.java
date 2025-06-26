@@ -49,7 +49,7 @@ public class UserService implements UsersInteractionPort {
             logger.warn("User {} already exists", user.getUsername());
             return Optional.empty();
         }
-        return usersRepository.save(user);
+        return usersRepository.create(user);
     }
 
     @Transactional
@@ -64,12 +64,8 @@ public class UserService implements UsersInteractionPort {
             logger.warn("Username in path {} does not match user object {}", username, user.getUsername());
             return Optional.empty();
         }
-        Optional<User> existingUser = usersRepository.findByUsername(username);
-        if (existingUser.isEmpty()) {
-            logger.warn("User {} not found for update", username);
-            return Optional.empty();
-        }
-        return usersRepository.save(user);
+
+        return usersRepository.update(username, user);
     }
 
     @Transactional

@@ -37,9 +37,22 @@ public class UserJpaRepositoryAdapter implements UsersRepositoryPort {
     }
 
     @Override
-    public Optional<User> save(User user) {
+    public Optional<User> create(User user) {
         UserJpaEntity newUser = userJpaRepository.save(userJpaMapper.toJpaEntity(user));
         return Optional.of(userJpaMapper.toDomain(newUser));
+    }
+
+    @Override
+    public Optional<User> update(String username, User user) {
+        Optional<UserJpaEntity> existingUser = userJpaRepository.findByUsername(username);
+        if (existingUser.isEmpty()) {
+            return Optional.empty();
+        }
+
+        UserJpaEntity updatedUser = userJpaMapper.toJpaEntity(user);
+        updatedUser.setId(existingUser.get().getId());
+        UserJpaEntity savedUser = userJpaRepository.save(updatedUser);
+        return Optional.of(userJpaMapper.toDomain(savedUser));
     }
 
     @Override
