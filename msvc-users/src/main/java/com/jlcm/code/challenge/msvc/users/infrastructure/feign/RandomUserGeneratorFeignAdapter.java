@@ -22,7 +22,7 @@ public class RandomUserGeneratorFeignAdapter implements UserGenerationPort {
 
     @Override
     public Collection<User> generateUsers(int count) {
-        return randomUserGeneratorFeignClient.getRandomUsers(count)
+        return randomUserGeneratorFeignClient.getRandomUsers(count, "gender,name,location,email,login,picture")
                 .getResults()
                 .stream()
                 .map(randomUserMapper::toDomain)
