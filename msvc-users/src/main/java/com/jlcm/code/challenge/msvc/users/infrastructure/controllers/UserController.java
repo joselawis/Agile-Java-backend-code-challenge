@@ -1,6 +1,7 @@
 package com.jlcm.code.challenge.msvc.users.infrastructure.controllers;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.SortedMap;
 
 import org.slf4j.Logger;
@@ -12,12 +13,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jlcm.code.challenge.msvc.users.application.UsersInteractionPort;
 import com.jlcm.code.challenge.msvc.users.domain.User;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+
 @RestController
+@RequestMapping(value = "/api/users")
 public class UserController {
 
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -55,13 +61,29 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> create(@RequestBody User newUser) {
+    public ResponseEntity<User> create(@Valid @RequestBody User newUser) {
+        if (newUser == null || newUser.getUsername().isBlank()) {
+            logger.error("Invalid user data provided for creation");
+            return ResponseEntity.badRequest().build();
+        }
         logger.info("Creating new user: {}", newUser.getUsername());
-        return ResponseEntity.ok(usersInteractionPort.create(newUser));
+        return usersInteractionPort.create(newUser)
+                .map(createdUser -> {
+                    logger.info("User {} created successfully", createdUser.getUsername());
+                    return ResponseEntity.ok(createdUser);
+                })
+                .orElseGet(() -> {
+                    logger.error("Failed to create user: {}", newUser.getUsername());
+                    return ResponseEntity.badRequest().build();
+                });
     }
 
     @PutMapping("{username}")
-    public ResponseEntity<User> update(@PathVariable String username, @RequestBody User userData) {
+    public ResponseEntity<User> update(@NotBlank @PathVariable String username, @Valid @RequestBody User userData) {
+        if (username.isBlank() || userData.getUsername().isBlank()) {
+            logger.error("Username cannot be blank");
+            return ResponseEntity.badRequest().build();
+        }
         logger.info("Updating user: {}", username);
         return usersInteractionPort.update(username, userData)
                 .map(updatedUser -> {
