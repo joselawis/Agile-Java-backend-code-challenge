@@ -49,7 +49,7 @@ public class UserService implements UsersInteractionPort {
             logger.warn("User {} already exists", user.getUsername());
             return Optional.empty();
         }
-        return usersRepository.create(user);
+        return usersRepository.save(user);
     }
 
     @Transactional
@@ -69,7 +69,7 @@ public class UserService implements UsersInteractionPort {
             logger.warn("User {} not found for update", username);
             return Optional.empty();
         }
-        return usersRepository.update(username, user);
+        return usersRepository.save(user);
     }
 
     @Transactional
@@ -84,7 +84,7 @@ public class UserService implements UsersInteractionPort {
             logger.warn("User {} not found for deletion", username);
             return Optional.empty();
         }
-        return usersRepository.delete(username);
+        return usersRepository.delete(existingUser.get());
     }
 
     @Transactional

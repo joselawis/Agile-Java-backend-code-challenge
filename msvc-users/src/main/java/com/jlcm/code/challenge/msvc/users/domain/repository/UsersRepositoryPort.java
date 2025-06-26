@@ -10,9 +10,7 @@ public interface UsersRepositoryPort {
 
     Optional<User> findByUsername(String username);
 
-    Optional<User> create(User user);
+    Optional<User> save(User user);
 
-    Optional<User> update(String username, User user);
-
-    Optional<User> delete(String username);
+    Optional<User> delete(User user);
 }
