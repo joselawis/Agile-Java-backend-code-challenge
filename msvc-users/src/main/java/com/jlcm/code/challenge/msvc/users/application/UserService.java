@@ -21,9 +21,11 @@ import com.jlcm.code.challenge.msvc.users.domain.repository.UsersRepositoryPort;
 public class UserService implements UsersInteractionPort {
     private final Logger logger = LoggerFactory.getLogger(UserService.class);
     private final UsersRepositoryPort usersRepository;
+    private final UserGenerationPort userGenerationPort;
 
-    public UserService(UsersRepositoryPort usersRepository) {
+    public UserService(UsersRepositoryPort usersRepository, UserGenerationPort userGenerationPort) {
         this.usersRepository = usersRepository;
+        this.userGenerationPort = userGenerationPort;
     }
 
     @Transactional(readOnly = true)
@@ -86,8 +88,21 @@ public class UserService implements UsersInteractionPort {
     @Transactional
     @Override
     public Collection<User> generateUsers(int count) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'generateUsers'");
+        if (count <= 0) {
+            logger.warn("Attempted to generate users with non-positive count: {}", count);
+            return List.of();
+        }
+        Collection<User> generatedUsers = userGenerationPort.generateUsers(count);
+        if (generatedUsers.isEmpty()) {
+            logger.info("No users generated");
+            return List.of();
+        }
+        return generatedUsers.stream()
+                .filter(user -> user.getUsername() != null && !user.getUsername().isBlank())
+                .map(usersRepository::create)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .toList();
     }
 
     @Transactional(readOnly = true)
