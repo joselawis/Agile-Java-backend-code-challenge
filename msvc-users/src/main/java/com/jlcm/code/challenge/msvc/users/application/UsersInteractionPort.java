@@ -21,6 +21,7 @@ public interface UsersInteractionPort {
 
     public Collection<User> generateUsers(int count);
 
-    public SortedMap<String, List<User>> findByCountry(String country);
+    // TODO: Think about a better way to handle this
+    public SortedMap<String, List<User>> findAllSortedByLocation();
 
 }
