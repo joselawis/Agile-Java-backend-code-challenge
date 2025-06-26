@@ -15,7 +15,9 @@ import com.jlcm.code.challenge.msvc.users.domain.dto.City;
 import com.jlcm.code.challenge.msvc.users.domain.dto.Country;
 import com.jlcm.code.challenge.msvc.users.domain.dto.State;
 import com.jlcm.code.challenge.msvc.users.domain.entities.User;
-import com.jlcm.code.challenge.msvc.users.domain.repository.UsersRepositoryPort;
+import com.jlcm.code.challenge.msvc.users.domain.ports.input.UsersInteractionPort;
+import com.jlcm.code.challenge.msvc.users.domain.ports.output.UserGenerationPort;
+import com.jlcm.code.challenge.msvc.users.domain.ports.output.UsersRepositoryPort;
 
 @Service
 public class UserService implements UsersInteractionPort {

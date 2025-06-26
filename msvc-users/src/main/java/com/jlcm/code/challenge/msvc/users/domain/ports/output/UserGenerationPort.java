@@ -1,4 +1,4 @@
-package com.jlcm.code.challenge.msvc.users.application;
+package com.jlcm.code.challenge.msvc.users.domain.ports.output;
 
 import java.util.Collection;
 
