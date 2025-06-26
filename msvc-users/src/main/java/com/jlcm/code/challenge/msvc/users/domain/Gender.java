@@ -1,5 +1,8 @@
 package com.jlcm.code.challenge.msvc.users.domain;
 
+import lombok.Getter;
+
+@Getter
 public enum Gender {
     MALE("male", 0), FEMALE("female", 1), OTHER("other", 2);
 
