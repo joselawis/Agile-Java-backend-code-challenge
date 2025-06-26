@@ -1,4 +1,4 @@
-package com.jlcm.code.challenge.msvc.users.infrastructure.feign;
+package com.jlcm.code.challenge.msvc.users.infrastructure.feign.adapters;
 
 import java.util.Collection;
 
@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.jlcm.code.challenge.msvc.users.domain.entities.User;
 import com.jlcm.code.challenge.msvc.users.domain.ports.output.UserGenerationPort;
+import com.jlcm.code.challenge.msvc.users.infrastructure.feign.client.RandomUserGeneratorFeignClient;
 import com.jlcm.code.challenge.msvc.users.infrastructure.feign.mappers.RandomUserMapper;
 
 @Service

@@ -1,4 +1,4 @@
-package com.jlcm.code.challenge.msvc.users.infrastructure.feign;
+package com.jlcm.code.challenge.msvc.users.infrastructure.feign.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
