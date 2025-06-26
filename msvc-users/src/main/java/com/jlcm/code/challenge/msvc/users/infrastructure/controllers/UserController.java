@@ -18,9 +18,12 @@ import com.jlcm.code.challenge.msvc.users.domain.dto.Country;
 import com.jlcm.code.challenge.msvc.users.domain.entities.User;
 import com.jlcm.code.challenge.msvc.users.domain.ports.input.UsersInteractionPort;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 
+@Tag(name = "User Management", description = "Operations for managing a collection of users")
 @RestController
 @RequestMapping(value = "/api/users")
 public class UserController {
@@ -33,6 +36,7 @@ public class UserController {
         this.usersInteractionPort = usersInteractionPort;
     }
 
+    @Operation(summary = "Get All Users", description = "Return the list of all users")
     @GetMapping
     public ResponseEntity<List<User>> getAll() {
         logger.info("Fetching all users");
@@ -45,6 +49,7 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
+    @Operation(summary = "Get User by Username", description = "Return a single user")
     @GetMapping("/{username}")
     public ResponseEntity<User> getByUsername(@PathVariable String username) {
         logger.info("Fetching user: {}", username);
@@ -59,6 +64,7 @@ public class UserController {
                 });
     }
 
+    @Operation(summary = "Create User", description = "Create a user")
     @PostMapping
     public ResponseEntity<User> create(@Valid @RequestBody User newUser) {
         if (newUser == null || newUser.getUsername().isBlank()) {
@@ -77,7 +83,8 @@ public class UserController {
                 });
     }
 
-    @PutMapping("{username}")
+    @Operation(summary = "Update User", description = "Update the information of a single user")
+    @PutMapping("/{username}")
     public ResponseEntity<User> update(@NotBlank @PathVariable String username, @Valid @RequestBody User userData) {
         if (username.isBlank() || userData.getUsername().isBlank()) {
             logger.error("Username cannot be blank");
@@ -95,6 +102,7 @@ public class UserController {
                 });
     }
 
+    @Operation(summary = "Delete User", description = "Delete a single user")
     @DeleteMapping("/{username}")
     public ResponseEntity<User> delete(@PathVariable String username) {
         logger.info("Deleting user: {}", username);
@@ -109,7 +117,8 @@ public class UserController {
                 });
     }
 
-    @GetMapping("generate/{count}")
+    @Operation(summary = "Generate Users", description = "Generate a number, provided as a parameter, of random users. To create the users you have to use the https://randomuser.me [Random User Generator] service. Users will be added to the collection of existing users")
+    @GetMapping("/generate/{count}")
     public ResponseEntity<List<User>> generate(@PathVariable int count) {
         logger.info("Generating {} users", count);
         List<User> generatedUsers = (List<User>) usersInteractionPort.generateUsers(count);
@@ -121,7 +130,8 @@ public class UserController {
         return ResponseEntity.ok(generatedUsers);
     }
 
-    @GetMapping("tree")
+    @Operation(summary = "Get Users Sorted by Location", description = "Return a tree with the users grouped by country, state and city (It can't be done in database)")
+    @GetMapping("/tree")
     public ResponseEntity<List<Country>> getAllSortedByLocation() {
         logger.info("Finding users sorted by country, state and city");
         List<Country> usersSorted = (List<Country>) usersInteractionPort.findAllSortedByLocation();
