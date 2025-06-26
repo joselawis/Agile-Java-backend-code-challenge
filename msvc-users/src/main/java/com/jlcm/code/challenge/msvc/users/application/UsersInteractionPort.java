@@ -13,7 +13,7 @@ public interface UsersInteractionPort {
 
     public Optional<User> findByUsername(String username);
 
-    public User create(User user);
+    public Optional<User> create(User user);
 
     public Optional<User> update(String username, User user);
 
