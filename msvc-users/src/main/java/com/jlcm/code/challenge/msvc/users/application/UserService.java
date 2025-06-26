@@ -119,6 +119,7 @@ public class UserService implements UsersInteractionPort {
                 .map(countryEntry -> {
                     // First level grouping by country
                     String countryName = countryEntry.getKey();
+                    int numberOfUsersInCountry = countryEntry.getValue().size();
 
                     // Second level grouping by state
                     Map<String, List<User>> usersByState = countryEntry.getValue().stream()
@@ -127,6 +128,7 @@ public class UserService implements UsersInteractionPort {
                     List<State> states = usersByState.entrySet().stream()
                             .map(stateEntry -> {
                                 String stateName = stateEntry.getKey();
+                                int numberOfUsersInState = stateEntry.getValue().size();
 
                                 // Third level grouping by city
                                 Map<String, List<User>> usersByCity = stateEntry.getValue().stream()
@@ -136,12 +138,12 @@ public class UserService implements UsersInteractionPort {
                                         .map(cityEntry -> {
                                             String cityName = cityEntry.getKey();
                                             List<User> usersInCity = cityEntry.getValue();
-                                            return new City(cityName, usersInCity);
+                                            return new City(cityName, usersInCity.size(), usersInCity);
                                         }).toList();
-                                return new State(stateName, cities);
+                                return new State(stateName, numberOfUsersInState, cities);
                             }).toList();
 
-                    return new Country(countryName, states);
+                    return new Country(countryName, numberOfUsersInCountry, states);
                 })
                 .toList();
     }

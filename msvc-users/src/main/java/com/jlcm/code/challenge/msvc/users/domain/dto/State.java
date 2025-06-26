@@ -10,5 +10,6 @@ import lombok.Getter;
 public class State {
 
     private String name;
+    private int numberOfUsers;
     private List<City> cities;
 }
