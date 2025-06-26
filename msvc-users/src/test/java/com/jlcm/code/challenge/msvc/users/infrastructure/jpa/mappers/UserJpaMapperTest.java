@@ -3,9 +3,7 @@ package com.jlcm.code.challenge.msvc.users.infrastructure.jpa.mappers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
-import org.mockito.exceptions.base.MockitoException;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.jlcm.code.challenge.msvc.users.domain.FullName;
