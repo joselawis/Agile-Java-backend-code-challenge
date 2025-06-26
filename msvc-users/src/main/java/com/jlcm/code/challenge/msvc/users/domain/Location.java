@@ -11,9 +11,11 @@ import lombok.Data;
 public class Location {
 
     @NotBlank
-    private String city;
+    private String country;
+
     @NotBlank
     private String state;
+
     @NotBlank
-    private String country;
+    private String city;
 }
