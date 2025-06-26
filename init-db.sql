@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS users (
     last_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     gender NUMERIC(1) NOT NULL,
-    picture_url VARCHAR(255) NOT NULL,
+    picture_url VARCHAR(255),
     country VARCHAR(255) NOT NULL,
     state_province VARCHAR(255) NOT NULL,
     city VARCHAR(255) NOT NULL

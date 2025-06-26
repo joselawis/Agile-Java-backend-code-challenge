@@ -17,7 +17,6 @@ public class User {
     private String email;
     @NotBlank
     private Gender gender;
-    @NotBlank
     private String picture;
     @NotBlank
     private Location location;
