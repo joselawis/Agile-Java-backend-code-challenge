@@ -1,10 +1,10 @@
 package com.jlcm.code.challenge.msvc.users.infrastructure.jpa.mappers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.jlcm.code.challenge.msvc.users.domain.entities.FullName;
 import com.jlcm.code.challenge.msvc.users.domain.entities.Gender;
@@ -12,14 +12,14 @@ import com.jlcm.code.challenge.msvc.users.domain.entities.Location;
 import com.jlcm.code.challenge.msvc.users.domain.entities.User;
 import com.jlcm.code.challenge.msvc.users.infrastructure.jpa.entities.UserJpaEntity;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 class UserJpaMapperTest {
 
-    private UserJpaMapper mapper = new UserJpaMapperImpl();
+    private final UserJpaMapper mapper = new UserJpaMapperImpl();
 
     @Test
     void shouldMapUserToJpaEntity() {
-        // given
+        // Given
         User user = User.builder()
                 .username("jdoe")
                 .name(new FullName("Mr", "John", "Doe"))
@@ -29,25 +29,25 @@ class UserJpaMapperTest {
                 .location(new Location("USA", "California", "LA"))
                 .build();
 
-        // when
+        // When
         UserJpaEntity entity = mapper.toJpaEntity(user);
 
-        // then
-        assertEquals("jdoe", entity.getUsername());
-        assertEquals("Mr", entity.getTitle());
-        assertEquals("John", entity.getFirstName());
-        assertEquals("Doe", entity.getLastName());
-        assertEquals("john@example.com", entity.getEmail());
-        assertEquals(0, entity.getGender());
-        assertEquals("http://img.com/pic.jpg", entity.getPictureUrl());
-        assertEquals("USA", entity.getCountry());
-        assertEquals("California", entity.getState());
-        assertEquals("LA", entity.getCity());
+        // Then
+        assertThat(entity.getUsername()).isEqualTo("jdoe");
+        assertThat(entity.getTitle()).isEqualTo("Mr");
+        assertThat(entity.getFirstName()).isEqualTo("John");
+        assertThat(entity.getLastName()).isEqualTo("Doe");
+        assertThat(entity.getEmail()).isEqualTo("john@example.com");
+        assertThat(entity.getGender()).isZero();
+        assertThat(entity.getPictureUrl()).isEqualTo("http://img.com/pic.jpg");
+        assertThat(entity.getCountry()).isEqualTo("USA");
+        assertThat(entity.getState()).isEqualTo("California");
+        assertThat(entity.getCity()).isEqualTo("LA");
     }
 
     @Test
     void shouldMapJpaEntityToUser() {
-        // given
+        // Given
         UserJpaEntity entity = UserJpaEntity.builder()
                 .username("jdoe")
                 .title("Mr")
@@ -61,19 +61,19 @@ class UserJpaMapperTest {
                 .city("LA")
                 .build();
 
-        // when
+        // When
         User user = mapper.toDomain(entity);
 
-        // then
-        assertEquals("jdoe", user.getUsername());
-        assertEquals("Mr", user.getName().getTitle());
-        assertEquals("John", user.getName().getFirstName());
-        assertEquals("Doe", user.getName().getLastName());
-        assertEquals("john@example.com", user.getEmail());
-        assertEquals(Gender.MALE, user.getGender());
-        assertEquals("http://img.com/pic.jpg", user.getPictureUrl());
-        assertEquals("USA", user.getLocation().getCountry());
-        assertEquals("California", user.getLocation().getState());
-        assertEquals("LA", user.getLocation().getCity());
+        // Then
+        assertThat(user.getUsername()).isEqualTo("jdoe");
+        assertThat(user.getName().getTitle()).isEqualTo("Mr");
+        assertThat(user.getName().getFirstName()).isEqualTo("John");
+        assertThat(user.getName().getLastName()).isEqualTo("Doe");
+        assertThat(user.getEmail()).isEqualTo("john@example.com");
+        assertThat(user.getGender()).isEqualTo(Gender.MALE);
+        assertThat(user.getPictureUrl()).isEqualTo("http://img.com/pic.jpg");
+        assertThat(user.getLocation().getCountry()).isEqualTo("USA");
+        assertThat(user.getLocation().getState()).isEqualTo("California");
+        assertThat(user.getLocation().getCity()).isEqualTo("LA");
     }
 }

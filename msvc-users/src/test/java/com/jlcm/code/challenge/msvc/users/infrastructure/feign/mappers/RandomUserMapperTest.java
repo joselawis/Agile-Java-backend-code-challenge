@@ -1,10 +1,10 @@
 package com.jlcm.code.challenge.msvc.users.infrastructure.feign.mappers;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.jlcm.code.challenge.msvc.users.domain.entities.Gender;
 import com.jlcm.code.challenge.msvc.users.domain.entities.User;
@@ -14,10 +14,10 @@ import com.jlcm.code.challenge.msvc.users.infrastructure.feign.dto.NameDto;
 import com.jlcm.code.challenge.msvc.users.infrastructure.feign.dto.PictureDto;
 import com.jlcm.code.challenge.msvc.users.infrastructure.feign.dto.UserResultDto;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 class RandomUserMapperTest {
 
-    private RandomUserMapper mapper = new RandomUserMapperImpl();
+    private final RandomUserMapper mapper = new RandomUserMapperImpl();
 
     @Test
     void shouldMapUserResultDtoToDomain() {
@@ -31,17 +31,19 @@ class RandomUserMapperTest {
                 .location(new LocationDto("LA", "California", "USA"))
                 .build();
 
+        // When
         User user = mapper.toDomain(userResultDto);
 
-        assertEquals("jdoe", user.getUsername());
-        assertEquals("Mr", user.getName().getTitle());
-        assertEquals("John", user.getName().getFirstName());
-        assertEquals("Doe", user.getName().getLastName());
-        assertEquals("john@example.com", user.getEmail());
-        assertEquals(Gender.MALE, user.getGender());
-        assertEquals("http://img.com/pic.jpg", user.getPictureUrl());
-        assertEquals("USA", user.getLocation().getCountry());
-        assertEquals("California", user.getLocation().getState());
-        assertEquals("LA", user.getLocation().getCity());
+        // Then
+        assertThat(user.getUsername()).isEqualTo("jdoe");
+        assertThat(user.getName().getTitle()).isEqualTo("Mr");
+        assertThat(user.getName().getFirstName()).isEqualTo("John");
+        assertThat(user.getName().getLastName()).isEqualTo("Doe");
+        assertThat(user.getEmail()).isEqualTo("john@example.com");
+        assertThat(user.getGender()).isEqualTo(Gender.MALE);
+        assertThat(user.getPictureUrl()).isEqualTo("http://img.com/pic.jpg");
+        assertThat(user.getLocation().getCountry()).isEqualTo("USA");
+        assertThat(user.getLocation().getState()).isEqualTo("California");
+        assertThat(user.getLocation().getCity()).isEqualTo("LA");
     }
 }
