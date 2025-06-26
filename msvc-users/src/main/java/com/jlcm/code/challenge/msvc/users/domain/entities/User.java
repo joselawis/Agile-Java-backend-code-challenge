@@ -1,4 +1,4 @@
-package com.jlcm.code.challenge.msvc.users.domain;
+package com.jlcm.code.challenge.msvc.users.domain.entities;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

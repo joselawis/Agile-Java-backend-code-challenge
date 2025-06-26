@@ -3,8 +3,8 @@ package com.jlcm.code.challenge.msvc.users.application;
 import java.util.Collection;
 import java.util.Optional;
 
-import com.jlcm.code.challenge.msvc.users.domain.User;
 import com.jlcm.code.challenge.msvc.users.domain.dto.Country;
+import com.jlcm.code.challenge.msvc.users.domain.entities.User;
 
 public interface UsersInteractionPort {
 

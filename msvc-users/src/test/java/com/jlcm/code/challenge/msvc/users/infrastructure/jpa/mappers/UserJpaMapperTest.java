@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.jlcm.code.challenge.msvc.users.domain.FullName;
-import com.jlcm.code.challenge.msvc.users.domain.Gender;
-import com.jlcm.code.challenge.msvc.users.domain.Location;
-import com.jlcm.code.challenge.msvc.users.domain.User;
+import com.jlcm.code.challenge.msvc.users.domain.entities.FullName;
+import com.jlcm.code.challenge.msvc.users.domain.entities.Gender;
+import com.jlcm.code.challenge.msvc.users.domain.entities.Location;
+import com.jlcm.code.challenge.msvc.users.domain.entities.User;
 import com.jlcm.code.challenge.msvc.users.infrastructure.jpa.entities.UserJpaEntity;
 
 @RunWith(MockitoJUnitRunner.class)

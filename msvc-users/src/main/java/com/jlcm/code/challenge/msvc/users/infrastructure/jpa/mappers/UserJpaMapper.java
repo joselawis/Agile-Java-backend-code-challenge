@@ -5,8 +5,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.springframework.stereotype.Component;
 
-import com.jlcm.code.challenge.msvc.users.domain.Gender;
-import com.jlcm.code.challenge.msvc.users.domain.User;
+import com.jlcm.code.challenge.msvc.users.domain.entities.Gender;
+import com.jlcm.code.challenge.msvc.users.domain.entities.User;
 import com.jlcm.code.challenge.msvc.users.infrastructure.jpa.entities.UserJpaEntity;
 
 @Mapper(componentModel = "spring")

@@ -19,7 +19,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.ResponseEntity;
 
 import com.jlcm.code.challenge.msvc.users.application.UsersInteractionPort;
-import com.jlcm.code.challenge.msvc.users.domain.User;
+import com.jlcm.code.challenge.msvc.users.domain.entities.User;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserControllerTest {

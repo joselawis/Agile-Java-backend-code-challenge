@@ -11,10 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jlcm.code.challenge.msvc.users.domain.User;
 import com.jlcm.code.challenge.msvc.users.domain.dto.City;
 import com.jlcm.code.challenge.msvc.users.domain.dto.Country;
 import com.jlcm.code.challenge.msvc.users.domain.dto.State;
+import com.jlcm.code.challenge.msvc.users.domain.entities.User;
 import com.jlcm.code.challenge.msvc.users.domain.repository.UsersRepositoryPort;
 
 @Service

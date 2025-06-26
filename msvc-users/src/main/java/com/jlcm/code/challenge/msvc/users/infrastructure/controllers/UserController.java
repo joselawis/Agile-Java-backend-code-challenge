@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jlcm.code.challenge.msvc.users.application.UsersInteractionPort;
-import com.jlcm.code.challenge.msvc.users.domain.User;
 import com.jlcm.code.challenge.msvc.users.domain.dto.Country;
+import com.jlcm.code.challenge.msvc.users.domain.entities.User;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;

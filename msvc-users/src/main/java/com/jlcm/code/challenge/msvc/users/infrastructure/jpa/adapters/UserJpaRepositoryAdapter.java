@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.jlcm.code.challenge.msvc.users.domain.User;
+import com.jlcm.code.challenge.msvc.users.domain.entities.User;
 import com.jlcm.code.challenge.msvc.users.domain.repository.UsersRepositoryPort;
 import com.jlcm.code.challenge.msvc.users.infrastructure.jpa.entities.UserJpaEntity;
 import com.jlcm.code.challenge.msvc.users.infrastructure.jpa.mappers.UserJpaMapper;

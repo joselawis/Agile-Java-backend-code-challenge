@@ -1,4 +1,4 @@
-package com.jlcm.code.challenge.msvc.users.domain;
+package com.jlcm.code.challenge.msvc.users.domain.entities;
 
 import lombok.Getter;
 
