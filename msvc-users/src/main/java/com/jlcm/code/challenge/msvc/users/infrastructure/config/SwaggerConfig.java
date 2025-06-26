@@ -12,7 +12,7 @@ import io.swagger.v3.oas.models.servers.Server;
 @Configuration
 public class SwaggerConfig {
 
-    @Value("${Host:}")
+    @Value("${swagger.host:}")
     private String configUrl;
 
     @Bean
