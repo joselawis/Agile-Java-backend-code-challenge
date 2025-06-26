@@ -26,7 +26,7 @@ INSERT INTO
         city
     )
 VALUES (
-        'lawis',
+        'jose',
         'Mr.',
         'Jose Luis',
         'Contreras',
