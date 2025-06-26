@@ -15,14 +15,14 @@ import com.jlcm.code.challenge.msvc.users.domain.User;
 import com.jlcm.code.challenge.msvc.users.domain.dto.City;
 import com.jlcm.code.challenge.msvc.users.domain.dto.Country;
 import com.jlcm.code.challenge.msvc.users.domain.dto.State;
-import com.jlcm.code.challenge.msvc.users.domain.repository.UsersRepository;
+import com.jlcm.code.challenge.msvc.users.domain.repository.UsersRepositoryPort;
 
 @Service
 public class UserService implements UsersInteractionPort {
     private final Logger logger = LoggerFactory.getLogger(UserService.class);
-    private final UsersRepository usersRepository;
+    private final UsersRepositoryPort usersRepository;
 
-    public UserService(UsersRepository usersRepository) {
+    public UserService(UsersRepositoryPort usersRepository) {
         this.usersRepository = usersRepository;
     }
 
