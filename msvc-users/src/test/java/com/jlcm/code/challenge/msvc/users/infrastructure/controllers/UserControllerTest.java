@@ -19,6 +19,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.ResponseEntity;
 
 import com.jlcm.code.challenge.msvc.users.application.UsersInteractionPort;
+import com.jlcm.code.challenge.msvc.users.domain.dto.City;
+import com.jlcm.code.challenge.msvc.users.domain.dto.Country;
+import com.jlcm.code.challenge.msvc.users.domain.dto.State;
 import com.jlcm.code.challenge.msvc.users.domain.entities.User;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -221,13 +224,42 @@ public class UserControllerTest {
         assertNull(response.getBody());
     }
 
+    @SuppressWarnings("null")
     @Test
     public void getAllSortedByLocation_shouldReturnUsersSortedByLocation() {
-        // TODO: Implement this test
+        User user1 = User.builder().username("user1").build();
+        User user2 = User.builder().username("user2").build();
+
+        City city1 = new City("New York", 1, List.of(user1));
+        City city2 = new City("Los Angeles", 1, List.of(user2));
+
+        State state1 = new State("New York", 1, List.of(city1));
+        State state2 = new State("California", 1, List.of(city2));
+
+        Country country = new Country("USA", 2, List.of(state1, state2));
+
+        List<Country> sortedUsers = List.of(country);
+        when(usersInteractionPort.findAllSortedByLocation()).thenReturn(sortedUsers);
+
+        ResponseEntity<List<Country>> response = userController.getAllSortedByLocation();
+
+        assertEquals(ResponseEntity.ok(sortedUsers), response);
+        verify(usersInteractionPort).findAllSortedByLocation();
+        assertNotNull(response.getBody());
+        assertEquals(1, response.getBody().size());
+        assertEquals("USA", response.getBody().get(0).getName());
+        assertEquals(2, response.getBody().get(0).getNumberOfUsers());
+        assertEquals(2, response.getBody().get(0).getStates().size());
     }
 
     @Test
     public void getAllSortedByLocation_shouldReturnNoContent_whenNoUsersExist() {
-        // TODO: Implement this test
+        when(usersInteractionPort.findAllSortedByLocation()).thenReturn(List.of());
+
+        ResponseEntity<List<Country>> response = userController.getAllSortedByLocation();
+
+        assertEquals(ResponseEntity.noContent().build(), response);
+        verify(usersInteractionPort).findAllSortedByLocation();
+        assertNull(response.getBody());
     }
 }
