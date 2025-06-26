@@ -15,6 +15,29 @@ services:
       - db_data:/var/lib/postgresql/data
       - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     restart: unless-stopped
+    networks:
+      - users-network
+
+  users-service:
+    build:
+      context: ./msvc-users
+      dockerfile: Dockerfile
+    container_name: users_service
+    ports:
+      - "9080:9080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SERVER_PORT: 9080
+    depends_on:
+      - db
+    networks:
+      - users-network
+    restart: unless-stopped
+
 
 volumes:
   db_data:
+
+networks:
+  users-network:
+    driver: bridge
