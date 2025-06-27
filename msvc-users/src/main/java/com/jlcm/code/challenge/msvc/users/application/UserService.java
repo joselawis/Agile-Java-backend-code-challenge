@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +35,26 @@ public class UserService implements UsersInteractionPort {
     @Override
     public Collection<User> findAll() {
         return usersRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Page<User> findAllPaginated(int page, int size, String sortBy, String sortDir) {
+        if (page < 0 || size <= 0) {
+            logger.warn("Invalid pagination parameters: page={}, size={}", page, size);
+            page = 0;
+            size = 10;
+        }
+        if (sortBy == null || sortBy.isBlank()) {
+            logger.warn("Invalid sortBy parameter: {}", sortBy);
+            sortBy = "username";
+        }
+        if (sortDir == null || (!sortDir.equalsIgnoreCase("asc") && !sortDir.equalsIgnoreCase("desc"))) {
+            logger.warn("Invalid sortDir parameter: {}", sortDir);
+            sortDir = "asc";
+        }
+
+        return usersRepository.findAllPaginated(page, size, sortBy, sortDir);
     }
 
     @Transactional(readOnly = true)
