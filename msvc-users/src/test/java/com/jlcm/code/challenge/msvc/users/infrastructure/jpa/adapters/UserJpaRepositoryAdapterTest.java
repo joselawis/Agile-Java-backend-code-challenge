@@ -20,6 +20,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import com.jlcm.code.challenge.msvc.users.domain.entities.FullName;
 import com.jlcm.code.challenge.msvc.users.domain.entities.Gender;
@@ -365,6 +369,40 @@ class UserJpaRepositoryAdapterTest {
             verify(userJpaRepository).findByUsername(username);
             verify(userJpaRepository).delete(jpaEntity);
             verify(userJpaMapper, never()).toDomain(any(UserJpaEntity.class));
+        }
+    }
+
+    @Nested
+    @DisplayName("findAllPaginated() Tests")
+    class FindAllPaginatedTests {
+
+        @Test
+        @DisplayName("Should return paginated users when repository has data")
+        void shouldReturnPaginatedUsersWhenRepositoryHasData() {
+            // Given
+            int page = 0, size = 1;
+            String sortBy = "username", sortDir = "asc";
+
+            PageRequest expectedPageable = PageRequest.of(page, size,
+                    Sort.by(Sort.Direction.ASC, sortBy));
+
+            List<UserJpaEntity> content = List.of(jpaEntity);
+            Page<UserJpaEntity> jpaPage = new PageImpl<>(content, expectedPageable, 1);
+
+            when(userJpaRepository.findAll(expectedPageable)).thenReturn(jpaPage);
+            when(userJpaMapper.toDomain(jpaEntity)).thenReturn(domainUser);
+
+            // When
+            Page<User> result = userJpaRepositoryAdapter.findAllPaginated(page, size, sortBy, sortDir);
+
+            // Then
+            assertThat(result).isNotNull();
+            assertThat(result.getContent()).hasSize(1).containsExactly(domainUser);
+            assertThat(result.getTotalElements()).isEqualTo(1);
+            assertThat(result.getNumber()).isZero();
+
+            verify(userJpaRepository).findAll(expectedPageable);
+            verify(userJpaMapper).toDomain(jpaEntity);
         }
     }
 }
