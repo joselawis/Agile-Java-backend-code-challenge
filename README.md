@@ -103,6 +103,13 @@ cd msvc-users
 ./mvnw test
 ```
 
+```bash
+# Execute tests + coverage
+cd msvc-users
+./mvnw test jacoco:report
+# then open in a web browser the file: target/site/jacoco/index.html
+```
+
 ### Local development
 
 1. **Start Postgresql database:**
