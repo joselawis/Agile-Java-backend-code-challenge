@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.jlcm.code.challenge.msvc.users.domain.entities.User;
@@ -72,8 +74,12 @@ public class UserJpaRepositoryAdapter implements UsersRepositoryPort {
 
     @Override
     public Page<User> findAllPaginated(int page, int size, String sortBy, String sortDir) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAllPaginated'");
+        PageRequest pageable = PageRequest.of(page,
+                size,
+                Sort.by("desc".equalsIgnoreCase(sortDir) ? Sort.Direction.DESC : Sort.Direction.ASC,
+                        sortBy));
+        Page<UserJpaEntity> allUsersPaginated = userJpaRepository.findAll(pageable);
+        return allUsersPaginated.map(userJpaMapper::toDomain);
     }
 
 }
