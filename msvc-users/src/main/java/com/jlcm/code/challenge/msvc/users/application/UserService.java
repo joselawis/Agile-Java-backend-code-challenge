@@ -79,12 +79,7 @@ public class UserService implements UsersInteractionPort {
             logger.warn("Attempted to delete a user with null or blank username");
             return Optional.empty();
         }
-        Optional<User> existingUser = usersRepository.findByUsername(username);
-        if (existingUser.isEmpty()) {
-            logger.warn("User {} not found for deletion", username);
-            return Optional.empty();
-        }
-        return usersRepository.delete(existingUser.get());
+        return usersRepository.delete(username);
     }
 
     @Transactional

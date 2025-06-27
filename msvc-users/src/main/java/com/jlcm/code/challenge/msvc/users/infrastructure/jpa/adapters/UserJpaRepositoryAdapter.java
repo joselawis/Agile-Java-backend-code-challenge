@@ -56,13 +56,17 @@ public class UserJpaRepositoryAdapter implements UsersRepositoryPort {
     }
 
     @Override
-    public Optional<User> delete(User user) {
+    public Optional<User> delete(String username) {
+        Optional<UserJpaEntity> existingUser = userJpaRepository.findByUsername(username);
+        if (existingUser.isEmpty()) {
+            return Optional.empty();
+        }
         try {
-            userJpaRepository.delete(userJpaMapper.toJpaEntity(user));
+            userJpaRepository.delete(existingUser.get());
         } catch (Exception e) {
             return Optional.empty();
         }
-        return Optional.of(user);
+        return Optional.of(userJpaMapper.toDomain(existingUser.get()));
     }
 
 }

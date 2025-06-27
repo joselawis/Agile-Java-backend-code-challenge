@@ -313,35 +313,58 @@ class UserJpaRepositoryAdapterTest {
         @DisplayName("Should delete and return user successfully")
         void shouldDeleteAndReturnUserSuccessfully() {
             // Given
-            when(userJpaMapper.toJpaEntity(domainUser)).thenReturn(jpaEntity);
+            String username = "johndoe";
+            when(userJpaRepository.findByUsername(username)).thenReturn(Optional.of(jpaEntity));
+            when(userJpaMapper.toDomain(jpaEntity)).thenReturn(domainUser);
 
             // When
-            Optional<User> result = userJpaRepositoryAdapter.delete(domainUser);
+            Optional<User> result = userJpaRepositoryAdapter.delete(username);
 
             // Then
             assertThat(result)
                     .isPresent()
                     .contains(domainUser);
 
-            verify(userJpaMapper).toJpaEntity(domainUser);
+            verify(userJpaRepository).findByUsername(username);
             verify(userJpaRepository).delete(jpaEntity);
+            verify(userJpaMapper).toDomain(jpaEntity);
+        }
+
+        @Test
+        @DisplayName("Should return empty optional when user to delete does not exist")
+        void shouldReturnEmptyOptionalWhenUserToDeleteDoesNotExist() {
+            // Given
+            String username = "nonexistent";
+            when(userJpaRepository.findByUsername(username)).thenReturn(Optional.empty());
+
+            // When
+            Optional<User> result = userJpaRepositoryAdapter.delete(username);
+
+            // Then
+            assertThat(result).isEmpty();
+
+            verify(userJpaRepository).findByUsername(username);
+            verify(userJpaRepository, never()).delete(any(UserJpaEntity.class));
+            verify(userJpaMapper, never()).toDomain(any(UserJpaEntity.class));
         }
 
         @Test
         @DisplayName("Should return empty optional when delete operation fails")
         void shouldReturnEmptyOptionalWhenDeleteOperationFails() {
             // Given
-            when(userJpaMapper.toJpaEntity(domainUser)).thenReturn(jpaEntity);
+            String username = "johndoe";
+            when(userJpaRepository.findByUsername(username)).thenReturn(Optional.of(jpaEntity));
             doThrow(new RuntimeException("Database error")).when(userJpaRepository).delete(jpaEntity);
 
             // When
-            Optional<User> result = userJpaRepositoryAdapter.delete(domainUser);
+            Optional<User> result = userJpaRepositoryAdapter.delete(username);
 
             // Then
             assertThat(result).isEmpty();
 
-            verify(userJpaMapper).toJpaEntity(domainUser);
+            verify(userJpaRepository).findByUsername(username);
             verify(userJpaRepository).delete(jpaEntity);
+            verify(userJpaMapper, never()).toDomain(any(UserJpaEntity.class));
         }
     }
 }

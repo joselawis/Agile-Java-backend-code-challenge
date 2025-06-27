@@ -2,6 +2,8 @@ package com.jlcm.code.challenge.msvc.users.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -201,16 +203,15 @@ class UserServiceTest {
     void delete_shouldDeleteUserSuccessfully() {
         // Given
         String username = "testuser";
-        when(usersRepository.findByUsername(username)).thenReturn(Optional.of(testUser));
-        when(usersRepository.delete(testUser)).thenReturn(Optional.of(testUser));
+        when(usersRepository.delete(username)).thenReturn(Optional.of(testUser));
 
         // When
         Optional<User> result = userService.delete(username);
 
         // Then
         assertThat(result).contains(testUser);
-        verify(usersRepository).findByUsername(username);
-        verify(usersRepository).delete(testUser);
+
+        verify(usersRepository).delete(username);
     }
 
     @ParameterizedTest(name = "delete should return empty when username is invalid: {0}")
@@ -221,6 +222,8 @@ class UserServiceTest {
 
         // Then
         assertThat(result).isEmpty();
+
+        verify(usersRepository, never()).findByUsername(anyString());
     }
 
     @Test
@@ -230,20 +233,8 @@ class UserServiceTest {
 
         // Then
         assertThat(result).isEmpty();
-    }
 
-    @Test
-    void delete_shouldReturnEmptyWhenUserNotFound() {
-        // Given
-        String username = "nonexistent";
-        when(usersRepository.findByUsername(username)).thenReturn(Optional.empty());
-
-        // When
-        Optional<User> result = userService.delete(username);
-
-        // Then
-        assertThat(result).isEmpty();
-        verify(usersRepository).findByUsername(username);
+        verify(usersRepository, never()).findByUsername(anyString());
     }
 
     @Test

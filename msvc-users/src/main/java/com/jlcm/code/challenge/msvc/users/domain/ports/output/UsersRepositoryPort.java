@@ -14,5 +14,5 @@ public interface UsersRepositoryPort {
 
     Optional<User> update(String username, User user);
 
-    Optional<User> delete(User user);
+    Optional<User> delete(String username);
 }
