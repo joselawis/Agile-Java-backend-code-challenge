@@ -3,6 +3,7 @@ package com.jlcm.code.challenge.msvc.users.infrastructure.jpa.adapters;
 import java.util.Collection;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.jlcm.code.challenge.msvc.users.domain.entities.User;
@@ -67,6 +68,12 @@ public class UserJpaRepositoryAdapter implements UsersRepositoryPort {
             return Optional.empty();
         }
         return Optional.of(userJpaMapper.toDomain(existingUser.get()));
+    }
+
+    @Override
+    public Page<User> findAllPaginated(int page, int size, String sortBy, String sortDir) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findAllPaginated'");
     }
 
 }
