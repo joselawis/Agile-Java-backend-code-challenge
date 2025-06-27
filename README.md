@@ -54,4 +54,4 @@ Extra optional features (only if you are done with the previous features):
 
 Please, as an integral part of the challenge, update this document or add another one with the instructions required to build, run or test the project. As an example, if any external database is required, provide the required steps to prepare it beforehand, using docker or any other solution if possible, although using an integrated in memory database is preferred for simplicity.
 
-# Instructions to intall and test on INSTALL.md
+# Instructions to intall and test on https://github.com/joselawis/Agile-Java-backend-code-challenge/blob/main/msvc-users/INSTALL.md [INSTALL.md]
