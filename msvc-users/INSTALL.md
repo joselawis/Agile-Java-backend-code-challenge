@@ -25,8 +25,12 @@ docker-compose up -d users-service
 ### Architecture
 - Ports and Adapters architecture with Spring Boot
 - PostgreSQL as Database
-- Swagger for documentation
-- Unit tests by JUnit and Mockito
+- Feign client for connect to external services
+- Swagger for documentation of the API and testing
+- Unit tests by JUnit5 and Mockito
+- Docker and docker-compose to build and install the project
+- Mapstruct for object mapping
+- Lombok to automatization of getter, setter, builder and constructors for objects
 
 ### Comandos útiles
 ```bash
