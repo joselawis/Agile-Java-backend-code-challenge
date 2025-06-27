@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jlcm.code.challenge.msvc.users.domain.dto.Country;
@@ -47,6 +49,24 @@ public class UserController {
         }
         logger.info("Found {} users", users.size());
         return ResponseEntity.ok(users);
+    }
+
+    @Operation(summary = "Get All Users paginated", description = "Return a paginated list of all users")
+    @GetMapping("/paginated")
+    public ResponseEntity<Page<User>> getAllPaginated(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "username") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDir) {
+        logger.info("Fetching all users with pagination: page={}, size={}, sortBy={}, sortDir={}", page, size, sortBy,
+                sortDir);
+        Page<User> pagedResponse = usersInteractionPort.findAllPaginated(page, size, sortBy, sortDir);
+        if (pagedResponse.getContent().isEmpty()) {
+            logger.warn("No users found for the given pagination parameters");
+            return ResponseEntity.noContent().build();
+        }
+        logger.info("Found {} users paginated", pagedResponse.getContent().size());
+        return ResponseEntity.ok(pagedResponse);
     }
 
     @Operation(summary = "Get User by Username", description = "Return a single user")
