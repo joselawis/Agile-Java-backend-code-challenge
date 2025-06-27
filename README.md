@@ -8,7 +8,7 @@ badly organized and “ugly” code. It's OK if you set a maximum duration to th
 
 You have to use the Java programming language and Spring Boot. Apart from that, it's up to you
 how you structure the code and what libraries you use. You may also use any code generation tool
-like https://start.spring.io [Spring Initializr] or https://www.jhipster.tech [JHypster].
+like [Spring Initializr](https://start.spring.io) or [JHypster](https://www.jhipster.tech).
 
 Please create a fork of this repository, so you can use it as it suits you. The
 only requirement is that all the code must be available in the master branch once you have
@@ -42,7 +42,7 @@ The application will provide the following JSON web services:
 * */api/users/{username}/ (PUT)*: update the information of a single user.
 * */api/users/{username}/ (DELETE)*: delete a single user.
 * */api/users/generate/{number}/ (GET)*: generate a number, provided as a parameter, of random users.
-To create the users you have to use the https://randomuser.me [Random User Generator] service. Users
+To create the users you have to use the [Random User Generator](https://randomuser.me)  service. Users
 will be added to the collection of existing users.
 * */api/users/tree/ (GET)*: return a tree with the users grouped by country, state and city (It can’t be done in database).
 
@@ -54,4 +54,4 @@ Extra optional features (only if you are done with the previous features):
 
 Please, as an integral part of the challenge, update this document or add another one with the instructions required to build, run or test the project. As an example, if any external database is required, provide the required steps to prepare it beforehand, using docker or any other solution if possible, although using an integrated in memory database is preferred for simplicity.
 
-# Instructions to intall and test on https://github.com/joselawis/Agile-Java-backend-code-challenge/blob/main/msvc-users/INSTALL.md [INSTALL.md]
+# Instructions to intall and test on [INSTALL.md](https://github.com/joselawis/Agile-Java-backend-code-challenge/blob/main/msvc-users/INSTALL.md)
