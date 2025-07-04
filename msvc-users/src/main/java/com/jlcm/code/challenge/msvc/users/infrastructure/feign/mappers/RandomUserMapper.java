@@ -3,14 +3,12 @@ package com.jlcm.code.challenge.msvc.users.infrastructure.feign.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import org.springframework.stereotype.Component;
 
 import com.jlcm.code.challenge.msvc.users.domain.entities.Gender;
 import com.jlcm.code.challenge.msvc.users.domain.entities.User;
 import com.jlcm.code.challenge.msvc.users.infrastructure.feign.dto.UserResultDto;
 
 @Mapper(componentModel = "spring")
-@Component
 public interface RandomUserMapper {
 
     @Mapping(source = "name.first", target = "name.firstName")
