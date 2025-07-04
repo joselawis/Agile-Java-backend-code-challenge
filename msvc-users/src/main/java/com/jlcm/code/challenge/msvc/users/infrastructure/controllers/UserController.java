@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jlcm.code.challenge.msvc.users.domain.UserNotFoundException;
 import com.jlcm.code.challenge.msvc.users.domain.dto.Country;
 import com.jlcm.code.challenge.msvc.users.domain.entities.User;
 import com.jlcm.code.challenge.msvc.users.domain.ports.input.UsersInteractionPort;
@@ -73,15 +74,14 @@ public class UserController {
     @GetMapping("/{username}")
     public ResponseEntity<User> getByUsername(@PathVariable String username) {
         logger.info("Fetching user: {}", username);
-        return usersInteractionPort.findByUsername(username)
-                .map(user -> {
-                    logger.info("User {} found", user.getUsername());
-                    return ResponseEntity.ok(user);
-                })
-                .orElseGet(() -> {
-                    logger.warn("User {} not found", username);
-                    return ResponseEntity.notFound().build();
-                });
+        try {
+            User user = usersInteractionPort.findByUsername2(username);
+            logger.info("User {} found", user.getUsername());
+            return ResponseEntity.ok(user);
+        } catch (UserNotFoundException e) {
+            logger.error("User not found: {}", username, e);
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @Operation(summary = "Create User", description = "Create a user")

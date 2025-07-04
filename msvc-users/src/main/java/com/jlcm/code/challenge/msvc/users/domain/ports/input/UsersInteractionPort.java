@@ -14,6 +14,8 @@ public interface UsersInteractionPort {
 
     public Optional<User> findByUsername(String username);
 
+    public User findByUsername2(String username);
+
     public Optional<User> create(User user);
 
     public Optional<User> update(String username, User user);

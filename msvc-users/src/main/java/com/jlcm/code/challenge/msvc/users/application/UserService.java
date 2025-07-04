@@ -64,8 +64,9 @@ public class UserService implements UsersInteractionPort {
         return usersRepository.findByUsername(username);
     }
 
-    public void findByUsername2(String username) {
-        usersRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
+    public User findByUsername2(String username) {
+        var user = usersRepository.findByUsername(username);
+        return user.orElseThrow(UserNotFoundException::new);
     }
 
     @Transactional
