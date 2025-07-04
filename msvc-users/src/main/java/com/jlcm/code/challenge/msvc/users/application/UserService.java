@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jlcm.code.challenge.msvc.users.domain.UserNotFoundException;
 import com.jlcm.code.challenge.msvc.users.domain.dto.City;
 import com.jlcm.code.challenge.msvc.users.domain.dto.Country;
 import com.jlcm.code.challenge.msvc.users.domain.dto.State;
@@ -61,6 +62,10 @@ public class UserService implements UsersInteractionPort {
     @Override
     public Optional<User> findByUsername(String username) {
         return usersRepository.findByUsername(username);
+    }
+
+    public void findByUsername2(String username) {
+        usersRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
     }
 
     @Transactional

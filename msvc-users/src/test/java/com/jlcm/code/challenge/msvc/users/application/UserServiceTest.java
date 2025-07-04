@@ -1,5 +1,6 @@
 package com.jlcm.code.challenge.msvc.users.application;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -7,6 +8,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +25,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.jlcm.code.challenge.msvc.users.domain.UserNotFoundException;
 import com.jlcm.code.challenge.msvc.users.domain.dto.Country;
 import com.jlcm.code.challenge.msvc.users.domain.entities.FullName;
 import com.jlcm.code.challenge.msvc.users.domain.entities.Gender;
@@ -114,11 +117,9 @@ class UserServiceTest {
         when(usersRepository.findByUsername(username)).thenReturn(Optional.empty());
 
         // When
-        Optional<User> result = userService.findByUsername(username);
-
-        // Then
-        assertThat(result).isEmpty();
-        verify(usersRepository).findByUsername(username);
+        assertThatThrownBy(() -> {
+            userService.findByUsername2(username);
+        }).isInstanceOf(UserNotFoundException.class);
     }
 
     @Test
